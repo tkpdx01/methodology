@@ -1,0 +1,39 @@
+// mockApi.js
+
+// Mock JSON data
+const mockData = {
+    users: [
+        { id: 1, name: "John Doe", email: "john@example.com" },
+        { id: 2, name: "Jane Smith", email: "jane@example.com" }
+    ],
+    posts: [
+        { id: 1, title: "Mock Title 1", content: "Mock content for post 1" },
+        { id: 2, title: "Mock Title 2", content: "Mock content for post 2" }
+    ]
+};
+
+// Function to simulate an API call
+function getMockApi(endpoint) {
+    if (process.env.NODE_ENV === "development") {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (mockData[endpoint]) {
+                    resolve(mockData[endpoint]);
+                } else {
+                    reject(new Error("Endpoint not found in mock data"));
+                }
+            }, 500); // Simulate API response delay
+        });
+    } else {
+        throw new Error("Mock API is only available in development mode");
+    }
+}
+
+// Example usage
+getMockApi("users")
+    .then((data) => console.log("Mock Users:", data))
+    .catch((error) => console.error(error));
+
+module.exports = {
+    getMockApi
+};
